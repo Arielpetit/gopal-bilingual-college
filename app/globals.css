@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Brand tokens ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f8f5ee;
+  --bg-2: #f1ece0;
+  --surface: #ffffff;
+  --fg: #0f1f19;
+  --fg-2: #2b3d35;
+  --muted: #61716a;
+  --line: rgba(15, 31, 25, 0.1);
+  --brand: #0c4a36;
+  --brand-2: #116149;
+  --brand-ink: #062a1f;
+  --gold: #e8a825;
+  --gold-2: #f6d27a;
+  --red: #c4372d;
+  --on-brand: #ffffff;
+  --shadow: 0 30px 60px -25px rgba(6, 42, 31, 0.28);
+}
+
+.dark {
+  --bg: #07110d;
+  --bg-2: #0b1a14;
+  --surface: #0f211a;
+  --fg: #eef3ef;
+  --fg-2: #c9d6cf;
+  --muted: #8ea39a;
+  --line: rgba(238, 243, 239, 0.1);
+  --brand: #12573f;
+  --brand-2: #1a7556;
+  --brand-ink: #041510;
+  --gold: #f0b739;
+  --gold-2: #f8dc93;
+  --on-brand: #ffffff;
+  --shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.7);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-ink: var(--brand-ink);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-cmr-red: var(--red);
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --shadow-soft: var(--shadow);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--bg);
+  color-scheme: light;
 }
+html.dark { color-scheme: dark; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+::selection { background: var(--gold); color: #062a1f; }
+section[id] { scroll-margin-top: 84px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- Textures ---------- */
+.grain { position: relative; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .06; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--gold) 35%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.text-gradient {
+  background: linear-gradient(100deg, var(--gold) 0%, var(--gold-2) 45%, var(--gold) 90%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shine 6s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 40s linear infinite; }
+.marquee-slow { animation: marquee 70s linear infinite; }
+.pause-hover:hover .marquee, .pause-hover:hover .marquee-slow { animation-play-state: paused; }
+@keyframes float { 50% { transform: translateY(-10px); } }
+.float { animation: float 6s ease-in-out infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 22s linear infinite; }
+
+/* Theme switch: circular reveal using the View Transitions API */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media print {
+  header, footer, .fixed, aside { display: none !important; }
+  body { background: #fff; color: #000; }
+  .print-area { box-shadow: none !important; }
 }
