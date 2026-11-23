@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { ArrowUpRight, Moon, Sun } from "lucide-react";
@@ -10,27 +11,21 @@ import { school } from "@/lib/content";
 
 export default function Navbar() {
   const { t, lang, setLang } = useLang();
+  const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("");
   const { scrollY, scrollYProgress } = useScroll();
   const bar = useSpring(scrollYProgress, { stiffness: 140, damping: 30 });
+
+  useEffect(() => { setOpen(false); }, [pathname]);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setScrolled(y > 30);
     setHidden(y > 500 && y > prev && !open);
   });
-
-  useEffect(() => {
-    if (location.pathname !== "/") { setActive(""); return; }
-    const ids = t.nav.map((n) => n.href.split("#")[1]);
-    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && setActive(e.target.id)), { rootMargin: "-45% 0px -50% 0px" });
-    ids.forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
-    return () => io.disconnect();
-  }, [t.nav]);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -40,7 +35,7 @@ export default function Navbar() {
     <>
       <motion.header animate={{ y: hidden && !open ? -110 : 0 }} transition={{ duration: 0.45, ease }} className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
         <div className={`mx-auto flex h-14 max-w-[84rem] items-center justify-between rounded-full pl-3 pr-2 transition-all duration-500 sm:h-16 sm:pl-4 ${scrolled || open ? "bg-surface/80 shadow-[0_10px_40px_-15px_rgba(0,0,0,.25)] ring-1 ring-line backdrop-blur-xl" : ""}`}>
-          <a href="/#top" className="flex items-center gap-2.5" aria-label={school.name} onClick={() => setOpen(false)}>
+          <a href="/" className="flex items-center gap-2.5" aria-label={school.name} onClick={() => setOpen(false)}>
             <Crest className="h-9 w-9 sm:h-10 sm:w-10" />
             <span className="leading-none">
               <span className="block font-display text-[17px] font-semibold text-fg">Gopal</span>
@@ -50,7 +45,7 @@ export default function Navbar() {
 
           <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main">
             {t.nav.map((n) => {
-              const on = active === n.href.split("#")[1];
+              const on = pathname === n.href || pathname.startsWith(n.href + "/");
               return (
                 <a key={n.href} href={n.href} className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${on ? "text-brand-ink" : "text-fg-2 hover:text-fg"}`}>
                   {on && <motion.span layoutId="navpill" className="absolute inset-0 -z-0 rounded-full bg-gold" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}

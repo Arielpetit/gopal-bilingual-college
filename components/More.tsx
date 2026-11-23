@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, FileText, Phone, Plus, Quote } from "lucide-react";
@@ -8,18 +9,18 @@ import { Magnetic, Reveal, RevealImage, SectionHead, SplitText, Wrap, btn, ease 
 import { img } from "@/lib/images";
 import { school } from "@/lib/content";
 
-export function Admissions() {
+export function Admissions({ head = true }: { head?: boolean }) {
   const { t } = useLang();
   const a = t.admissions;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 60%"] });
   return (
-    <section id="admissions" className="bg-bg-2 py-24 sm:py-32">
+    <section id="admissions" className={`bg-bg-2 ${head ? "py-24 sm:py-32" : "py-16 sm:py-24"}`}>
       <Wrap>
         <div className="grid gap-14 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
           <div>
-            <SectionHead eyebrow={a.eyebrow} title={a.title} sub={a.sub} />
-            <div ref={ref} className="relative mt-14 pl-12 sm:pl-16">
+            {head && <SectionHead eyebrow={a.eyebrow} title={a.title} sub={a.sub} />}
+            <div ref={ref} className={`relative ${head ? "mt-14" : ""} pl-12 sm:pl-16`}>
               <div className="absolute bottom-6 left-[19px] top-6 w-[2px] bg-line sm:left-[23px]">
                 <motion.div style={{ scaleY: scrollYProgress }} className="h-full w-full origin-top bg-gold" />
               </div>
@@ -135,18 +136,18 @@ export function GradCTA() {
   );
 }
 
-export function News() {
+export function News({ limit = 3, more = false, head = true }: { limit?: number; more?: boolean; head?: boolean }) {
   const { t } = useLang();
   return (
-    <section className="py-24 sm:py-32">
+    <section className={head ? "py-24 sm:py-32" : "py-16 sm:py-24"}>
       <Wrap>
-        <SectionHead eyebrow={t.news.eyebrow} title={t.news.title} />
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {t.news.items.map((n, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <a href="#contact" className="group block">
+        {head && <SectionHead eyebrow={t.news.eyebrow} title={t.news.title} />}
+        <div className={`${head ? "mt-14" : ""} grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3`}>
+          {t.news.items.slice(0, limit).map((n, i) => (
+            <Reveal key={i} delay={(i % 3) * 0.1}>
+              <a href="/contact" className="group block">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-[1.8rem]">
-                  <Image src={img.news[i]} alt="" fill sizes="(min-width:768px) 30vw, 92vw" className="object-cover transition-transform duration-[1.2s] ease-out-expo group-hover:scale-105" />
+                  <Image src={img.news[i % img.news.length]} alt="" fill sizes="(min-width:768px) 30vw, 92vw" className="object-cover transition-transform duration-[1.2s] ease-out-expo group-hover:scale-105" />
                   <span className="absolute left-4 top-4 rounded-full bg-surface/90 px-3 py-1 text-xs font-bold text-fg backdrop-blur">{n.tag}</span>
                 </div>
                 <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-muted">{n.date}</p>
@@ -158,6 +159,7 @@ export function News() {
             </Reveal>
           ))}
         </div>
+        {more && <Reveal className="mt-12 text-center"><Link href="/news" className={btn.brand}>{t.pages.seeNews}<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></Link></Reveal>}
       </Wrap>
     </section>
   );

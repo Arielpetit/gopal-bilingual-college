@@ -6,7 +6,7 @@ import { school } from "@/lib/content";
 import { useLang } from "./LangProvider";
 import { Reveal, SectionHead, Wrap } from "./ui";
 
-export default function Contact() {
+export default function Contact({ head = true }: { head?: boolean }) {
   const { t } = useLang();
   const c = t.contact;
   const [sent, setSent] = useState(false);
@@ -30,11 +30,11 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 sm:py-32">
+    <section id="contact" className={head ? "py-24 sm:py-32" : "py-16 sm:py-24"}>
       <Wrap className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
         <div>
-          <SectionHead eyebrow={c.eyebrow} title={c.title} sub={c.sub} />
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
+          {head && <SectionHead eyebrow={c.eyebrow} title={c.title} sub={c.sub} />}
+          <div className={`${head ? "mt-10" : ""} grid gap-3 sm:grid-cols-2`}>
             {info.map(({ I, k, v, href }, i) => (
               <Reveal key={k} delay={i * 0.06}>
                 <a href={href} className={`flex h-full gap-4 rounded-2xl bg-surface p-5 ring-1 ring-line transition ${href ? "hover:ring-gold" : "pointer-events-none"}`}>

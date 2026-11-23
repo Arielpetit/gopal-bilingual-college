@@ -43,7 +43,7 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-white">{t.footer.contact}</p>
               <p className="pt-2">{school.address}</p><p>{school.phone}</p><p>{school.email}</p>
-              <a href="/#top" className="!mt-7 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 font-semibold text-white transition hover:bg-gold hover:text-brand-ink"><ArrowUp size={16} />{t.footer.top}</a>
+              <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="!mt-7 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 font-semibold text-white transition hover:bg-gold hover:text-brand-ink"><ArrowUp size={16} />{t.footer.top}</a>
             </div>
           </div>
           <div className="mt-16 flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-xs sm:flex-row">

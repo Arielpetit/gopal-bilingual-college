@@ -34,7 +34,7 @@ export default function ProgramView({ slug }: { slug: string }) {
         </motion.div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-ink via-brand-ink/60 to-brand-ink/10" />
         <Wrap className="pb-16 pt-36 text-white sm:pb-24">
-          <Link href="/#programs" className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 transition hover:text-gold"><ArrowLeft size={16} />{l.back}</Link>
+          <Link href="/programs" className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 transition hover:text-gold"><ArrowLeft size={16} />{l.back}</Link>
           <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8, ease }} className="mt-8"><Eyebrow light>{c.age}</Eyebrow></motion.p>
           <h1 className="mt-4 max-w-4xl font-display text-5xl font-medium leading-[1] tracking-tight sm:text-7xl lg:text-8xl">
             {c.title.split(" ").map((w, i) => (
@@ -46,7 +46,7 @@ export default function ProgramView({ slug }: { slug: string }) {
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.9, ease }} className="mt-5 font-display text-2xl italic text-gold sm:text-3xl">{c.tagline}</motion.p>
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.9, ease }} className="mt-9 flex flex-wrap gap-3">
             <Magnetic><Link href={`/apply?level=${p.slug}`} className={btn.gold}>{l.apply}<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></Link></Magnetic>
-            <Magnetic><Link href="/#contact" className={`${btn.ghost} text-white`}>{l.visit}</Link></Magnetic>
+            <Magnetic><Link href="/contact" className={`${btn.ghost} text-white`}>{l.visit}</Link></Magnetic>
           </motion.div>
         </Wrap>
       </section>

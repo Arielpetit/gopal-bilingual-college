@@ -10,17 +10,19 @@ const icons = [FlaskConical, Cpu, Library, Trophy, Baby, MapPin];
 // bento layout: big tiles at 0 and 5
 const span = ["md:col-span-2 md:row-span-2", "", "", "", "", "sm:col-span-2 md:col-span-4"];
 
-export default function Facilities() {
+export default function Facilities({ head = true }: { head?: boolean }) {
   const { t } = useLang();
   const f = t.facilities;
   return (
-    <section id="facilities" className="py-24 sm:py-32">
+    <section id="facilities" className={head ? "py-24 sm:py-32" : "py-16 sm:py-24"}>
       <Wrap>
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <SectionHead eyebrow={f.eyebrow} title={f.title} />
-          <Reveal className="max-w-sm"><p className="text-muted">{f.sub}</p></Reveal>
-        </div>
-        <div className="mt-14 grid auto-rows-[15rem] gap-4 sm:grid-cols-2 md:grid-cols-4 md:auto-rows-[14rem]">
+        {head && (
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHead eyebrow={f.eyebrow} title={f.title} />
+            <Reveal className="max-w-sm"><p className="text-muted">{f.sub}</p></Reveal>
+          </div>
+        )}
+        <div className={`${head ? "mt-14" : ""} grid auto-rows-[15rem] gap-4 sm:grid-cols-2 md:grid-cols-4 md:auto-rows-[14rem]`}>
           {f.items.map((it, i) => {
             const I = icons[i];
             return (

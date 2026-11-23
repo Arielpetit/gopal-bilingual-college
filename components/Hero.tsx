@@ -64,7 +64,7 @@ export default function Hero() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease, delay: 0.95 }} className="mt-9 flex flex-wrap items-center gap-3">
             <Magnetic><a href="/apply" className={btn.gold}>{h.apply}<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></a></Magnetic>
-            <Magnetic><a href="#contact" className={`${btn.ghost} text-fg`}><CalendarDays size={18} />{h.tour}</a></Magnetic>
+            <Magnetic><a href="/contact" className={`${btn.ghost} text-fg`}><CalendarDays size={18} />{h.tour}</a></Magnetic>
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3, duration: 1 }} className="mt-12 grid max-w-lg grid-cols-3 divide-x divide-line">

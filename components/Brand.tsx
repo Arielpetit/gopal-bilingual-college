@@ -3,8 +3,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLang } from "./LangProvider";
 import { ease } from "./ui";
+import { logoSrc } from "@/lib/images";
 
 export function Crest({ className = "h-10 w-10" }: { className?: string }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  if (logoSrc) return <img src={logoSrc} alt="" className={`${className} object-contain`} />;
   return (
     <svg viewBox="0 0 48 48" className={className} aria-hidden>
       <defs>

@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { ArrowUpRight, Award, Check, Globe2, HeartHandshake, Laptop, MessagesSquare, Sparkles, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Award, Check, Globe2, HeartHandshake, Laptop, MessagesSquare, Sparkles, Users } from "lucide-react";
 import { useLang } from "./LangProvider";
-import { Counter, Reveal, RevealImage, SectionHead, Wrap, ease } from "./ui";
+import { Counter, Reveal, RevealImage, SectionHead, Wrap, btn, ease } from "./ui";
 import { img } from "@/lib/images";
 
-export function About() {
+export function About({ more = false }: { more?: boolean }) {
   const { t } = useLang();
   const a = t.about;
   const ref = useRef<HTMLDivElement>(null);
@@ -42,6 +43,7 @@ export function About() {
               </Reveal>
             ))}
           </ul>
+          {more && <Reveal delay={0.3}><Link href="/about" className={`${btn.brand} mt-10`}>{t.pages.seeAbout}<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></Link></Reveal>}
         </div>
       </Wrap>
     </section>
@@ -67,17 +69,19 @@ export function StatsBand() {
 
 const progImgs = [img.nursery, img.primary, img.secAnglo, img.secFranco];
 const progSlugs = ["nursery", "primary", "secondary-anglophone", "secondary-francophone"];
-export function Programs() {
+export function Programs({ head = true, more = false }: { head?: boolean; more?: boolean }) {
   const { t } = useLang();
   const p = t.programs;
   return (
-    <section id="programs" className="bg-bg-2 py-24 sm:py-32">
+    <section id="programs" className={`bg-bg-2 ${head ? "py-24 sm:py-32" : "py-16 sm:py-24"}`}>
       <Wrap>
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <SectionHead eyebrow={p.eyebrow} title={p.title} />
-          <Reveal className="max-w-sm"><p className="text-muted">{p.sub}</p></Reveal>
-        </div>
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {head && (
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHead eyebrow={p.eyebrow} title={p.title} />
+            <Reveal className="max-w-sm"><p className="text-muted">{p.sub}</p></Reveal>
+          </div>
+        )}
+        <div className={`${head ? "mt-14" : ""} grid gap-5 sm:grid-cols-2 xl:grid-cols-4`}>
           {p.items.map((it, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <a href={`/programs/${progSlugs[i]}`} className="group flex h-full flex-col overflow-hidden rounded-[2rem] bg-surface ring-1 ring-line transition-[box-shadow,transform] duration-500 hover:-translate-y-2 hover:shadow-soft">
@@ -101,6 +105,7 @@ export function Programs() {
             </Reveal>
           ))}
         </div>
+        {more && <Reveal className="mt-12 text-center"><Link href="/programs" className={btn.brand}>{t.pages.seePrograms}<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></Link></Reveal>}
       </Wrap>
     </section>
   );
