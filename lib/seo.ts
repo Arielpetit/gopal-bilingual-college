@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 export const SITE = {
   name: "Gopal Bilingual International College",
   short: "GBIC",
-  // Set NEXT_PUBLIC_SITE_URL to the real domain in production (e.g. https://www.gopalcollege.cm).
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3111",
+  // Set NEXT_PUBLIC_SITE_URL to the real domain in production (defaults to https://gopal-college.vercel.app).
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://gopal-college.vercel.app",
   description:
     "Gopal Bilingual International College in Bastos, Yaoundé: English and French education from nursery to GCE A Level and Baccalauréat. Two languages, one bright future.",
   keywords: [
