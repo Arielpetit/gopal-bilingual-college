@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import { Admissions, FAQ } from "@/components/More";
 import { KeyDates, Fees } from "@/components/PageSections";
 
-export const metadata: Metadata = { title: "Admissions · Gopal Bilingual International College", description: "How to apply to Gopal: steps, documents, key dates and fees." };
+export const metadata: Metadata = pageMeta("Admissions", "How to apply to Gopal: steps, required documents, key dates and fees.", "/admissions");
 
 export default function Page() {
   return (

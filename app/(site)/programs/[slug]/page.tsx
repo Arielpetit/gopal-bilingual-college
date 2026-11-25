@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { enabledPrograms, getProgram } from "@/lib/programs";
+import { pageMeta } from "@/lib/seo";
 import ProgramView from "@/components/ProgramView";
 
 export function generateStaticParams() {
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = getProgram(slug);
   if (!p) return {};
-  return { title: `${p.content.en.title} · Gopal Bilingual International College`, description: p.content.en.intro };
+  return pageMeta(p.content.en.title, p.content.en.intro.slice(0, 200), `/programs/${slug}`);
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

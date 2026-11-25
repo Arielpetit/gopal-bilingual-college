@@ -3,23 +3,36 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/components/LangProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SITE } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
 const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], axes: ["opsz", "SOFT"], style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
-  title: "Gopal Bilingual International College · Yaoundé",
-  description:
-    "Gopal Bilingual International College, Bastos, Yaoundé. English and French education from nursery to GCE A Level and Baccalauréat.",
+  metadataBase: new URL(SITE.url),
+  title: { default: `${SITE.name} · Yaoundé`, template: `%s · ${SITE.name}` },
+  description: SITE.description,
+  keywords: SITE.keywords,
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name }],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Gopal Bilingual International College",
-    description: "Two languages. One bright future. Bastos, Yaoundé, Cameroon.",
+    title: `${SITE.name} · Yaoundé`,
+    description: "Two languages. One bright future. English and French education in Bastos, Yaoundé, from nursery to GCE A Level and Baccalauréat.",
+    url: "/",
+    siteName: SITE.name,
     type: "website",
     locale: "en_CM",
-    alternateLocale: "fr_CM",
+    alternateLocale: ["fr_CM"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} · Yaoundé`,
+    description: "Two languages. One bright future. English and French education in Bastos, Yaoundé.",
+  },
+  robots: { index: true, follow: true },
+  formatDetection: { telephone: false },
 };
-
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f8f5ee" },
